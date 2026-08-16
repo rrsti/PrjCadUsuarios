@@ -1,0 +1,113 @@
+﻿@model PrjCadUsuario.Models.Usuario
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/datatables/css/jquery.dataTables.min.css" />
+        <link rel="stylesheet" href="~/resources/layout/plugins/datatable/datatables-bs4/css/dataTables.bootstrap4.min.css" />
+        <link rel="stylesheet" href="~/resources/layout/plugins/datatable/datatables-responsive/css/responsive.bootstrap4.min.css" />
+        <link rel="stylesheet" href="~/resources/layout/plugins/datatable/datatables-buttons/css/buttons.bootstrap4.min.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" asp-fallback-href="~/lib/datatables/css/jquery.data" asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+    </environment>
+}
+<br />
+
+<section class="content">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        if (@TempData["MsgErrorAluno"] != null)
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        @TempData["MsgError"]
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+
+        if (@TempData["MsgSucessoAluno"] != null)
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-success alert-dismissible">
+                        <span aria-hidden="true">@TempData["MsgSucesso"]</span>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="container-fluid">
+            <div class="card card-secondary" style="height:800px !important;">
+                <div class="card-header">
+                    <h3 class="card-title">Incluir Novo Usuário</h3>
+                </div>
+                <div class="card-body">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Dados do Usuário</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group col-md-10">
+                                    Nome completo do usuário
+                                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    Login
+                                    @Html.EditorFor(model => model.Login, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Login, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group col-md-3">
+                                    Telefone
+                                    @Html.EditorFor(model => model.Telefone, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Telefone, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group col-md-6">
+                                    E-mail
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" asp-for="Ativo" /> @Html.DisplayNameFor(model => model.Ativo)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row" style="text-align:right !important;">
+                            <input type="submit" name="btnSalvar" id="btnSalvar" value="Salvar dados" class="btn btn-primary" />&nbsp;&nbsp; @Html.ActionLink("Retornar", "Index", new { htmlAttributes = new { @class = "btn btn-primary" } })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @section ScriptPage {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+
+</section>
